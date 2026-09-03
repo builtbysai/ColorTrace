@@ -51,6 +51,26 @@ describe('persisted trace recovery', () => {
     expect(history).toEqual({ traces: [], invalidCount: 3 });
   });
 
+  it('sorts by absolute instant rather than by ISO-string ordering when a non-Z UTC offset is present', () => {
+    // Actually earlier: 2026-08-10T09:00:00.000Z, printed in the Z form.
+    const actuallyOlder = trace('01234567-89ab-4def-8123-456789abcdef', '2026-08-10T09:00:00.000Z');
+    // Actually later: 2026-08-10T12:00:00.000Z, but printed with a -08:00 offset so its
+    // wall-clock hour ("04") sorts *before* the older row's ("09") as a plain string.
+    const actuallyNewer = trace('11234567-89ab-4def-8123-456789abcdef', '2026-08-10T12:00:00.000Z');
+    const newerRowWithOffset = { ...actuallyNewer, capturedAt: '2026-08-10T04:00:00.000-08:00' };
+
+    // Sanity check: string order disagrees with chronological order, so a naive
+    // localeCompare-based sort would (wrongly) rank the older row first.
+    expect(newerRowWithOffset.capturedAt.localeCompare(actuallyOlder.capturedAt)).toBeLessThan(0);
+
+    const history = parsePersistedTraceHistory([actuallyOlder, newerRowWithOffset]);
+
+    expect(history.traces.map((entry) => entry.traceId)).toEqual([
+      newerRowWithOffset.traceId,
+      actuallyOlder.traceId,
+    ]);
+  });
+
   it('rejects promptly when opening IndexedDB fails', async () => {
     const request = {
       error: null,

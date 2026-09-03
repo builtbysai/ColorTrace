@@ -160,30 +160,55 @@ export function snapshotMatchedAuthorRules(
   return { matchedAuthorRules, inaccessibleStyleSheets, ruleSearchTruncated };
 }
 
+function resolveCustomProperty(
+  name: string,
+  computedStyle: CSSStyleDeclaration,
+): SelectiveCustomPropertyEvidence {
+  const resolvedExpression = computedStyle.getPropertyValue(name).trim() || null;
+  const parsed = resolvedExpression ? parseCssColor(resolvedExpression) : null;
+  return {
+    name,
+    resolvedExpression: parsed ? resolvedExpression : null,
+    resolvedValue: parsed
+      ? {
+          space: parsed.value.space,
+          channels: [...parsed.value.channels],
+          alpha: parsed.value.alpha,
+        }
+      : null,
+  };
+}
+
+function collectCustomProperties(
+  expressions: readonly string[],
+  computedStyle: CSSStyleDeclaration,
+): SelectiveCustomPropertyEvidence[] {
+  const seen = new Set<string>();
+  const result: SelectiveCustomPropertyEvidence[] = [];
+
+  for (const expression of expressions) {
+    for (const name of extractCustomPropertyReferences(expression)) {
+      if (seen.has(name)) continue;
+      seen.add(name);
+      result.push(resolveCustomProperty(name, computedStyle));
+      if (result.length >= MAX_REFERENCED_CUSTOM_PROPERTIES) return result;
+    }
+  }
+
+  return result;
+}
+
 export function snapshotSelectiveSourceEvidence(
   element: Element,
   property: TraceableColorProperty,
   computedStyle: CSSStyleDeclaration,
 ): SelectiveSourceEvidence {
   const authored = inlineStyle(element)?.getPropertyValue(property).trim() || null;
-  const customProperties = authored
-    ? extractCustomPropertyReferences(authored).map((name) => {
-        const resolvedExpression = computedStyle.getPropertyValue(name).trim() || null;
-        const parsed = resolvedExpression ? parseCssColor(resolvedExpression) : null;
-        return {
-          name,
-          resolvedExpression: parsed ? resolvedExpression : null,
-          resolvedValue: parsed
-            ? {
-                space: parsed.value.space,
-                channels: [...parsed.value.channels],
-                alpha: parsed.value.alpha,
-              }
-            : null,
-        };
-      })
-    : [];
   const ruleEvidence = snapshotMatchedAuthorRules(element, property);
+  const expressions = [authored, ...ruleEvidence.matchedAuthorRules.map((rule) => rule.expression)].filter(
+    (expression): expression is string => Boolean(expression),
+  );
+  const customProperties = collectCustomProperties(expressions, computedStyle);
 
   return {
     inlineExpression: authored,

@@ -92,6 +92,32 @@ describe('trace firewall', () => {
     });
   });
 
+  it('surfaces a token candidate for a var() reference found only in a matched author rule, with no inline style', () => {
+    const sourceFromExternalStylesheetOnly: QuickTraceSourceEvidence = {
+      inlineExpression: null,
+      customProperties: [
+        {
+          name: '--brand-color',
+          resolvedExpression: 'oklch(0.62 0.18 260)',
+          resolvedValue: { space: 'oklch', channels: [0.62, 0.18, 260], alpha: 1 },
+        },
+      ],
+      matchedAuthorRules: [{ expression: 'var(--brand-color)', important: false }],
+      inaccessibleStyleSheets: 0,
+      ruleSearchTruncated: false,
+    };
+
+    const trace = buildQuickTrace({ ...baseCapture, sourceEvidence: sourceFromExternalStylesheetOnly }, identity);
+
+    expect(trace.tokenEvidence.status).toBe('candidate');
+    expect(trace.tokenEvidence.candidates).toHaveLength(1);
+    expect(trace.tokenEvidence.candidates[0]).toMatchObject({
+      tokenId: 'css-variable:--brand-color',
+      displayName: '--brand-color',
+      resolvedValue: { space: 'oklch', channels: [0.62, 0.18, 260], alpha: 1 },
+    });
+  });
+
   it('persists matched author declarations without selector identifiers or winning provenance', () => {
     const sourceWithUntrustedSelector = {
       inlineExpression: null,
