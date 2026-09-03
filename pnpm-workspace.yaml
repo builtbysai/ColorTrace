@@ -1,0 +1,6 @@
+packages:
+  - apps/*
+  - packages/*
+
+# No dependency build scripts are allowlisted. pnpm keeps unreviewed dependency
+# install/build scripts blocked unless a future dependency is explicitly reviewed.

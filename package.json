@@ -1,0 +1,28 @@
+{
+  "name": "visual-color-debugger",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.17.0",
+  "scripts": {
+    "dev": "pnpm --filter @vcd/extension dev",
+    "dev:firefox": "pnpm --filter @vcd/extension dev:firefox",
+    "build": "pnpm -r --if-present build",
+    "build:chromium": "pnpm --filter @vcd/extension build",
+    "build:firefox": "pnpm --filter @vcd/extension build:firefox",
+    "package:chromium": "pnpm --filter @vcd/extension zip",
+    "package:firefox": "pnpm --filter @vcd/extension zip:firefox",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test && node --test scripts/release-metadata.test.mjs scripts/manifest-policy.test.mjs",
+    "check:manifests": "node scripts/check-built-manifests.mjs",
+    "check:release-metadata": "node scripts/check-release-metadata.mjs",
+    "check:packages": "node scripts/check-release-archives.mjs",
+    "smoke:chromium": "node scripts/smoke-chromium.mjs",
+    "smoke:firefox": "node scripts/smoke-firefox.mjs",
+    "check": "pnpm typecheck && pnpm test && pnpm build:chromium && pnpm build:firefox && pnpm check:manifests"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  }
+}
