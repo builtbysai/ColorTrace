@@ -14,7 +14,7 @@ See `docs/architecture.md` and `docs/security-model.md` for the detailed boundar
 
 ## Reproducible build and validation
 
-Run commands from `colortrace/`.
+Run commands from the repository root.
 
 Prerequisites: Node.js 22+ and pnpm 11.17.0. The repository commits `pnpm-lock.yaml`; install with the frozen lockfile.
 
@@ -41,21 +41,21 @@ Development servers are available with `pnpm dev` for Chromium and `pnpm dev:fir
 1. Run `pnpm build:chromium`.
 2. Open `chrome://extensions` and enable Developer mode.
 3. Choose **Load unpacked**.
-4. Select `apps/extension/.output/chrome-mv3` from inside `colortrace/`.
+4. Select `apps/extension/.output/chrome-mv3` from inside the repository root.
 5. Pin ColorTrace if desired, then activate it from the extension action or with `Alt+Shift+C`.
 
 ### Firefox
 
 1. Run `pnpm build:firefox`.
 2. Open `about:debugging#/runtime/this-firefox` and choose **Load Temporary Add-on**.
-3. Select `apps/extension/.output/firefox-mv3/manifest.json` from inside `colortrace/`.
+3. Select `apps/extension/.output/firefox-mv3/manifest.json` from inside the repository root.
 4. Activate ColorTrace from the extension action or with `Alt+Shift+C`.
 
 A temporary Firefox installation lasts until Firefox restarts.
 
 ## Build release archives
 
-From `colortrace/`:
+From the repository root:
 
 - `pnpm package:chromium` creates the Chromium store ZIP.
 - `pnpm package:firefox` creates the Firefox extension ZIP plus the Firefox source-review ZIP.

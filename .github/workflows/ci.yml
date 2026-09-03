@@ -1,0 +1,71 @@
+name: ColorTrace CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: colortrace-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.17.0
+          run_install: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Test
+        run: pnpm test
+      - name: Build Firefox
+        run: pnpm build:firefox
+      - name: Smoke Firefox startup
+        run: pnpm smoke:firefox
+      - name: Build Chromium
+        run: pnpm build:chromium
+      - name: Smoke Chromium startup
+        env:
+          CHROME_PATH: chromium
+        run: pnpm smoke:chromium
+      - name: Audit generated manifests
+        run: pnpm check:manifests
+      - name: Package release archives
+        run: |
+          pnpm package:chromium
+          pnpm package:firefox
+      - name: Audit release archives
+        run: pnpm check:packages
+      - name: Audit release identity and version
+        run: pnpm check:release-metadata
+      - name: Rebuild Firefox from source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_zip="$(find apps/extension/.output -maxdepth 1 -type f -name '*-sources.zip' -print -quit)"
+          test -n "$source_zip"
+          rm -rf .source-rebuild
+          mkdir .source-rebuild
+          python -m zipfile -e "$source_zip" .source-rebuild
+          (
+            cd .source-rebuild
+            pnpm install --frozen-lockfile
+            pnpm build:firefox
+          )
+          node scripts/compare-build-trees.mjs \
+            apps/extension/.output/firefox-mv3 \
+            .source-rebuild/apps/extension/.output/firefox-mv3
