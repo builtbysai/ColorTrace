@@ -1,5 +1,9 @@
-import { describe, expect, it } from 'vitest';
-import { extractCustomPropertyReferences, snapshotMatchedAuthorRules } from '../src/trace/source-evidence.js';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  extractCustomPropertyReferences,
+  snapshotMatchedAuthorRules,
+  snapshotSelectiveSourceEvidence,
+} from '../src/trace/source-evidence.js';
 
 function rule(selector: string, property: string, value: string, priority = ''): CSSRule {
   return {
@@ -18,6 +22,10 @@ function sheet(rules: readonly CSSRule[]): CSSStyleSheet {
 const target = {
   matches: (selector: string) => selector === '.target' || selector === 'button.target' || selector.includes('account-secret'),
 } as unknown as Element;
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('selective source evidence', () => {
   it('extracts direct custom-property references, deduplicated in source order', () => {
@@ -94,5 +102,27 @@ describe('selective source evidence', () => {
 
     expect(evidence.matchedAuthorRules).toHaveLength(8);
     expect(evidence.ruleSearchTruncated).toBe(true);
+  });
+
+  it('captures token evidence for var() used only in a matched external-stylesheet rule, with no inline style', () => {
+    vi.stubGlobal('document', {
+      styleSheets: [sheet([
+        rule('.target', 'color', 'var(--brand-color)'),
+      ])],
+    });
+
+    const computedStyle = {
+      getPropertyValue: (name: string) => (name === '--brand-color' ? 'oklch(0.62 0.18 260)' : ''),
+    } as unknown as CSSStyleDeclaration;
+
+    const evidence = snapshotSelectiveSourceEvidence(target, 'color', computedStyle);
+
+    expect(evidence.inlineExpression).toBeNull();
+    expect(evidence.matchedAuthorRules).toEqual([{ expression: 'var(--brand-color)', important: false }]);
+    expect(evidence.customProperties).toEqual([{
+      name: '--brand-color',
+      resolvedExpression: 'oklch(0.62 0.18 260)',
+      resolvedValue: { space: 'oklch', channels: [0.62, 0.18, 260], alpha: 1 },
+    }]);
   });
 });

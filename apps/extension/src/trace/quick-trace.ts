@@ -37,21 +37,25 @@ function fingerprint(element: Element): ColorTrace['target'] {
   };
 }
 
-function authorityFor(element: Element, computedStyle: CSSStyleDeclaration): ColorTrace['authority'] {
+function normalizeForcedColorAdjust(value: string): ColorTrace['authority']['forcedColorAdjust'] {
+  return value === 'none' || value === 'preserve-parent-color' ? value : 'auto';
+}
+
+export function authorityFor(element: Element, computedStyle: CSSStyleDeclaration): ColorTrace['authority'] {
   const forcedColors = media('(forced-colors: active)');
-  const forcedColorAdjust = computedStyle.forcedColorAdjust;
+  const forcedColorAdjust = normalizeForcedColorAdjust(computedStyle.forcedColorAdjust);
   if (forcedColors && forcedColorAdjust !== 'none') {
     return {
       authority: 'user-preference',
       reason: 'forced-colors',
-      forcedColorAdjust: forcedColorAdjust === 'none' ? 'none' : 'auto',
+      forcedColorAdjust,
       confidence: 'resolved',
     };
   }
   return {
     authority: 'unknown',
     reason: 'unknown',
-    forcedColorAdjust: forcedColorAdjust === 'none' ? 'none' : 'auto',
+    forcedColorAdjust,
     confidence: 'unknown',
   };
 }

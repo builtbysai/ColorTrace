@@ -186,9 +186,7 @@ function buildQuickEvidence(
 }
 
 function buildTokenEvidence(sourceEvidence?: QuickTraceSourceEvidence): TokenEvidence {
-  const customProperties = sourceEvidence?.inlineExpression
-    ? sourceEvidence.customProperties.slice(0, MAX_SOURCE_CUSTOM_PROPERTIES)
-    : [];
+  const customProperties = (sourceEvidence?.customProperties ?? []).slice(0, MAX_SOURCE_CUSTOM_PROPERTIES);
   if (customProperties.length === 0) {
     return { selectedTokenId: null, status: 'none', candidates: [] };
   }

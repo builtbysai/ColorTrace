@@ -47,7 +47,7 @@ export function parsePersistedTraceHistory(raw: unknown[]): TraceHistory {
     if (parsed.success) traces.push(parsed.data);
     else invalidCount += 1;
   }
-  traces.sort((a, b) => b.capturedAt.localeCompare(a.capturedAt));
+  traces.sort((a, b) => Date.parse(b.capturedAt) - Date.parse(a.capturedAt));
   return { traces, invalidCount };
 }
 
