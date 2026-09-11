@@ -87,3 +87,7 @@ ColorTrace does not sample rendered pixels. Canvas/video/cross-origin rendered a
 Winning-rule/cascade provenance is incomplete by design. Bounded same-origin/page-accessible CSSOM observations do not cover every nested conditional rule, cascade layer/scope interaction, animation/transition, user-origin rule, or inaccessible/cross-origin stylesheet, and a matching declaration is not asserted to be the winner. Pseudo-class state inference is conservative.
 
 Numeric comparison is currently limited to recorded coordinates that are directly comparable in the same color space/channel shape; ColorTrace does not invent a cross-space delta. HDR/wide-gamut authored provenance is representable in the shared color model, but browser computed-style serialization can constrain what is observed.
+
+---
+
+*Built by [Hans Sai](https://builtbysai.com).*
