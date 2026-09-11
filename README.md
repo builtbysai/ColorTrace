@@ -2,6 +2,10 @@
 
 ColorTrace is a local-first Visual Color Debugger browser extension for capturing a small, explainable record of color evidence, reopening that evidence later, comparing two traces, reproducing recorded conditions, and exporting a privacy-bounded regression report. Chromium and Firefox builds use WXT and Manifest V3.
 
+<p align="center">
+  <img src="assets/workflow.svg" width="900" alt="ColorTrace workflow: capture color evidence, validate and store locally, compare baseline vs candidate, export a privacy-bounded regression report">
+</p>
+
 ## Security and privacy contract
 
 The production extension declares only `activeTab` and `scripting`. It has no persistent host permissions, broad all-site access, screenshot/page-capture authority, cookie access, cloud transport, native messaging, or clipboard-read permission. The picker is injected only after an explicit extension action or keyboard command. Persisted traces are validated by the strict `@vcd/trace-model` schema and stored in extension-origin IndexedDB.

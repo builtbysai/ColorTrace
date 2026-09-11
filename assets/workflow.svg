@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+<defs><pattern id="csl" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#ffffff" opacity="0.018"/></pattern></defs>
+<rect x="1" y="1" width="998" height="618" rx="14" fill="#070b08" stroke="#1d3a26" stroke-width="2"/>
+<rect x="1" y="1" width="998" height="618" rx="14" fill="url(#csl)"/>
+<text x="36" y="42" fill="#e8f5ec" font-size="17" font-weight="bold">ColorTrace — capture, compare, explain</text>
+<text x="36" y="66" fill="#8fa89a" font-size="12">local-first visual color debugger · WXT + Manifest V3 · Chromium &amp; Firefox</text>
+<text x="964" y="42" text-anchor="end" fill="#33ff66" font-size="12">page → capture → diff → report</text>
+
+<g>
+<rect x="36" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
+<circle cx="66" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
+<text x="66" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">1</text>
+<text x="88" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">CAPTURE</text>
+<text x="54.0" y="278" fill="#8fa89a" font-size="10.8">Alt+Shift+C or toolbar</text><text x="54.0" y="294" fill="#8fa89a" font-size="10.8">action</text><text x="54.0" y="310" fill="#8fa89a" font-size="10.8">picker: hover + click,</text><text x="54.0" y="326" fill="#8fa89a" font-size="10.8">or Tab through + Enter</text><text x="54.0" y="342" fill="#8fa89a" font-size="10.8">Escape cancels</text>
+<rect x="54.0" y="350" width="64" height="30" rx="6" fill="#33ff66" stroke="#000" stroke-width="1"/><text x="126.0" y="370" fill="#8fa89a" font-size="11.5">#33FF66</text>
+</g>
+<g>
+<rect x="275" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
+<circle cx="305" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
+<text x="305" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">2</text>
+<text x="327" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">FIREWALL + STORE</text>
+<text x="293.0" y="278" fill="#8fa89a" font-size="10.8">evidence firewall,</text><text x="293.0" y="294" fill="#8fa89a" font-size="10.8">strict schema</text><text x="293.0" y="310" fill="#8fa89a" font-size="10.8">validation,</text><text x="293.0" y="326" fill="#8fa89a" font-size="10.8">stored only in</text><text x="293.0" y="342" fill="#8fa89a" font-size="10.8">extension-origin</text><text x="293.0" y="358" fill="#8fa89a" font-size="10.8">IndexedDB</text>
+
+</g>
+<g>
+<rect x="514" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
+<circle cx="544" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
+<text x="544" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">3</text>
+<text x="566" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">COMPARE</text>
+<text x="532.0" y="278" fill="#8fa89a" font-size="10.8">baseline vs candidate:</text><text x="532.0" y="294" fill="#8fa89a" font-size="10.8">appearance coordinates,</text><text x="532.0" y="310" fill="#8fa89a" font-size="10.8">property / state / env,</text><text x="532.0" y="326" fill="#8fa89a" font-size="10.8">source confidence,</text><text x="532.0" y="342" fill="#8fa89a" font-size="10.8">tokens</text>
+<rect x="532.0" y="350" width="64" height="30" rx="6" fill="#8fa89a" stroke="#000" stroke-width="1"/><text x="604.0" y="370" fill="#8fa89a" font-size="11.5">baseline</text><rect x="532.0" y="386" width="64" height="30" rx="6" fill="#a8b4c0" stroke="#000" stroke-width="1"/><text x="604.0" y="406" fill="#8fa89a" font-size="11.5">candidate</text>
+</g>
+<g>
+<rect x="753" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
+<circle cx="783" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
+<text x="783" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">4</text>
+<text x="805" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">REPORT</text>
+<text x="771.0" y="278" fill="#8fa89a" font-size="10.8">export / import</text><text x="771.0" y="294" fill="#8fa89a" font-size="10.8">.colortrace</text><text x="771.0" y="310" fill="#8fa89a" font-size="10.8">(validated, deduped),</text><text x="771.0" y="326" fill="#8fa89a" font-size="10.8">regression report omits:</text><text x="771.0" y="342" fill="#8fa89a" font-size="10.8">screenshots, URLs,</text><text x="771.0" y="358" fill="#8fa89a" font-size="10.8">selectors, causal claims</text>
+
+</g>
+<path d="M 247 275 L 267 275" stroke="#33ff66" stroke-width="2"/><path d="M 267 275 l -12 -6 l 2 12 z" fill="#33ff66"/><path d="M 486 275 L 506 275" stroke="#33ff66" stroke-width="2"/><path d="M 506 275 l -12 -6 l 2 12 z" fill="#33ff66"/><path d="M 725 275 L 745 275" stroke="#33ff66" stroke-width="2"/><path d="M 745 275 l -12 -6 l 2 12 z" fill="#33ff66"/>
+<rect x="36" y="452" width="928" height="104" rx="10" fill="#0a100c" stroke="#1d3a26" stroke-width="1.2"/>
+<text x="56" y="482" fill="#ffb020" font-size="12.5" font-weight="bold">privacy contract</text>
+<text x="56" y="506" fill="#8fa89a" font-size="11.5">declares only activeTab + scripting · no screenshots · no cloud transport · no cookie access · page identity reduced to origin</text>
+<text x="56" y="530" fill="#8fa89a" font-size="11.5">resolved computed style is labeled honestly — never presented as rendered-pixel appearance</text>
+<text x="36" y="596" fill="#4a5f52" font-size="11.5">known limits by design: no rendered-pixel sampling, no invented cross-space deltas, no causal claims</text>
+</svg>
