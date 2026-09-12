@@ -1,47 +1,130 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
-<defs><pattern id="csl" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#ffffff" opacity="0.018"/></pattern></defs>
-<rect x="1" y="1" width="998" height="618" rx="14" fill="#070b08" stroke="#1d3a26" stroke-width="2"/>
-<rect x="1" y="1" width="998" height="618" rx="14" fill="url(#csl)"/>
-<text x="36" y="42" fill="#e8f5ec" font-size="17" font-weight="bold">ColorTrace — capture, compare, explain</text>
-<text x="36" y="66" fill="#8fa89a" font-size="12">local-first visual color debugger · WXT + Manifest V3 · Chromium &amp; Firefox</text>
-<text x="964" y="42" text-anchor="end" fill="#33ff66" font-size="12">page → capture → diff → report</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="600" viewBox="0 0 1000 600" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+<defs>
+  <linearGradient id="spec" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fa5252"/>
+    <stop offset="0.2" stop-color="#fd7e14"/>
+    <stop offset="0.4" stop-color="#ffd43b"/>
+    <stop offset="0.6" stop-color="#69db7c"/>
+    <stop offset="0.8" stop-color="#38bdf8"/>
+    <stop offset="1" stop-color="#845ef7"/>
+  </linearGradient>
+</defs>
 
-<g>
-<rect x="36" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
-<circle cx="66" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
-<text x="66" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">1</text>
-<text x="88" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">CAPTURE</text>
-<text x="54.0" y="278" fill="#8fa89a" font-size="10.8">Alt+Shift+C or toolbar</text><text x="54.0" y="294" fill="#8fa89a" font-size="10.8">action</text><text x="54.0" y="310" fill="#8fa89a" font-size="10.8">picker: hover + click,</text><text x="54.0" y="326" fill="#8fa89a" font-size="10.8">or Tab through + Enter</text><text x="54.0" y="342" fill="#8fa89a" font-size="10.8">Escape cancels</text>
-<rect x="54.0" y="350" width="64" height="30" rx="6" fill="#33ff66" stroke="#000" stroke-width="1"/><text x="126.0" y="370" fill="#8fa89a" font-size="11.5">#33FF66</text>
-</g>
-<g>
-<rect x="275" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
-<circle cx="305" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
-<text x="305" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">2</text>
-<text x="327" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">FIREWALL + STORE</text>
-<text x="293.0" y="278" fill="#8fa89a" font-size="10.8">evidence firewall,</text><text x="293.0" y="294" fill="#8fa89a" font-size="10.8">strict schema</text><text x="293.0" y="310" fill="#8fa89a" font-size="10.8">validation,</text><text x="293.0" y="326" fill="#8fa89a" font-size="10.8">stored only in</text><text x="293.0" y="342" fill="#8fa89a" font-size="10.8">extension-origin</text><text x="293.0" y="358" fill="#8fa89a" font-size="10.8">IndexedDB</text>
+<rect x="8" y="8" width="984" height="584" rx="16" fill="#f6f8fa" stroke="#d8dee4" stroke-width="1"/>
 
-</g>
-<g>
-<rect x="514" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
-<circle cx="544" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
-<text x="544" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">3</text>
-<text x="566" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">COMPARE</text>
-<text x="532.0" y="278" fill="#8fa89a" font-size="10.8">baseline vs candidate:</text><text x="532.0" y="294" fill="#8fa89a" font-size="10.8">appearance coordinates,</text><text x="532.0" y="310" fill="#8fa89a" font-size="10.8">property / state / env,</text><text x="532.0" y="326" fill="#8fa89a" font-size="10.8">source confidence,</text><text x="532.0" y="342" fill="#8fa89a" font-size="10.8">tokens</text>
-<rect x="532.0" y="350" width="64" height="30" rx="6" fill="#8fa89a" stroke="#000" stroke-width="1"/><text x="604.0" y="370" fill="#8fa89a" font-size="11.5">baseline</text><rect x="532.0" y="386" width="64" height="30" rx="6" fill="#a8b4c0" stroke="#000" stroke-width="1"/><text x="604.0" y="406" fill="#8fa89a" font-size="11.5">candidate</text>
-</g>
-<g>
-<rect x="753" y="150" width="211" height="250" rx="12" fill="#0a100c" stroke="#1d3a26" stroke-width="1.5"/>
-<circle cx="783" cy="180" r="13" fill="none" stroke="#33ff66" stroke-width="1.6"/>
-<text x="783" y="185" text-anchor="middle" fill="#33ff66" font-size="13" font-weight="bold">4</text>
-<text x="805" y="185" fill="#e8f5ec" font-size="13.5" font-weight="bold">REPORT</text>
-<text x="771.0" y="278" fill="#8fa89a" font-size="10.8">export / import</text><text x="771.0" y="294" fill="#8fa89a" font-size="10.8">.colortrace</text><text x="771.0" y="310" fill="#8fa89a" font-size="10.8">(validated, deduped),</text><text x="771.0" y="326" fill="#8fa89a" font-size="10.8">regression report omits:</text><text x="771.0" y="342" fill="#8fa89a" font-size="10.8">screenshots, URLs,</text><text x="771.0" y="358" fill="#8fa89a" font-size="10.8">selectors, causal claims</text>
+<text x="40" y="56" fill="#1f2328" font-size="19" font-weight="700">ColorTrace — capture, compare, explain</text>
+<text x="40" y="78" fill="#59636e" font-size="12.5">local-first visual color debugger · WXT + Manifest V3 · Chromium &amp; Firefox</text>
+<text x="960" y="58" text-anchor="end" fill="#59636e" font-size="11.5">capture &#8594; firewall &#8594; compare &#8594; report</text>
 
+<!-- ================= STAGE 1 : CAPTURE ================= -->
+<g>
+  <rect x="40" y="100" width="205" height="290" rx="12" fill="#ffffff" stroke="#d8dee4" stroke-width="1"/>
+  <circle cx="66" cy="132" r="14" fill="#ffffff" stroke="#7048e8" stroke-width="2"/>
+  <text x="66" y="137" text-anchor="middle" fill="#7048e8" font-size="13" font-weight="700">1</text>
+  <text x="88" y="137" fill="#1f2328" font-size="13.5" font-weight="700" letter-spacing="1">CAPTURE</text>
+  <text x="62" y="168" fill="#42505e" font-size="11.5">Alt+Shift+C or the toolbar action;</text>
+  <text x="62" y="187" fill="#42505e" font-size="11.5">hover + click a highlighted</text>
+  <text x="62" y="206" fill="#42505e" font-size="11.5">element &#8212; or Tab through focus</text>
+  <text x="62" y="225" fill="#42505e" font-size="11.5">targets + Enter. Escape cancels.</text>
+  <text x="62" y="244" fill="#42505e" font-size="11.5">picks: foreground &#183; background &#183;</text>
+  <text x="62" y="263" fill="#42505e" font-size="11.5">border &#183; fill &#183; stroke</text>
+  <rect x="62" y="280" width="161" height="16" rx="8" fill="url(#spec)"/>
+  <circle cx="164" cy="288" r="5.5" fill="#38bdf8" stroke="#ffffff" stroke-width="2"/>
+  <line x1="164" y1="294" x2="90" y2="304" stroke="#8b949e" stroke-width="1.2"/>
+  <rect x="62" y="304" width="46" height="46" rx="9" fill="#38bdf8" stroke="#000000" stroke-opacity="0.12"/>
+  <text x="116" y="326" fill="#1f2328" font-size="13" font-weight="700" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">#38bdf8</text>
+  <text x="116" y="342" fill="#59636e" font-size="10">resolved-style</text>
 </g>
-<path d="M 247 275 L 267 275" stroke="#33ff66" stroke-width="2"/><path d="M 267 275 l -12 -6 l 2 12 z" fill="#33ff66"/><path d="M 486 275 L 506 275" stroke="#33ff66" stroke-width="2"/><path d="M 506 275 l -12 -6 l 2 12 z" fill="#33ff66"/><path d="M 725 275 L 745 275" stroke="#33ff66" stroke-width="2"/><path d="M 745 275 l -12 -6 l 2 12 z" fill="#33ff66"/>
-<rect x="36" y="452" width="928" height="104" rx="10" fill="#0a100c" stroke="#1d3a26" stroke-width="1.2"/>
-<text x="56" y="482" fill="#ffb020" font-size="12.5" font-weight="bold">privacy contract</text>
-<text x="56" y="506" fill="#8fa89a" font-size="11.5">declares only activeTab + scripting · no screenshots · no cloud transport · no cookie access · page identity reduced to origin</text>
-<text x="56" y="530" fill="#8fa89a" font-size="11.5">resolved computed style is labeled honestly — never presented as rendered-pixel appearance</text>
-<text x="36" y="596" fill="#4a5f52" font-size="11.5">known limits by design: no rendered-pixel sampling, no invented cross-space deltas, no causal claims</text>
+
+<!-- ================= STAGE 2 : VALIDATE + STORE ================= -->
+<g>
+  <rect x="270" y="100" width="205" height="290" rx="12" fill="#ffffff" stroke="#d8dee4" stroke-width="1"/>
+  <circle cx="296" cy="132" r="14" fill="#ffffff" stroke="#1a7f37" stroke-width="2"/>
+  <text x="296" y="137" text-anchor="middle" fill="#1a7f37" font-size="13" font-weight="700">2</text>
+  <text x="318" y="137" fill="#1f2328" font-size="13.5" font-weight="700" letter-spacing="1">FIREWALL + STORE</text>
+  <text x="292" y="168" fill="#42505e" font-size="11.5">evidence firewall passes only</text>
+  <text x="292" y="187" fill="#42505e" font-size="11.5">the low-exposure set &#8212; validated</text>
+  <text x="292" y="206" fill="#42505e" font-size="11.5">by the strict trace-model schema,</text>
+  <text x="292" y="225" fill="#42505e" font-size="11.5">stored in extension-origin</text>
+  <text x="292" y="244" fill="#42505e" font-size="11.5">IndexedDB. Nothing else crosses.</text>
+  <text x="292" y="272" fill="#1a7f37" font-size="10" font-weight="700" letter-spacing="1.2">PASSES</text>
+  <text x="392" y="272" fill="#59636e" font-size="10" font-weight="700" letter-spacing="1.2">OMITTED</text>
+  <text x="292" y="290" fill="#42505e" font-size="11"><tspan fill="#1a7f37" font-weight="700">&#10003;</tspan> color data</text>
+  <text x="392" y="290" fill="#59636e" font-size="11"><tspan fill="#8b949e" font-weight="700">&#10005;</tspan> screenshots</text>
+  <text x="292" y="310" fill="#42505e" font-size="11"><tspan fill="#1a7f37" font-weight="700">&#10003;</tspan> css evidence</text>
+  <text x="392" y="310" fill="#59636e" font-size="11"><tspan fill="#8b949e" font-weight="700">&#10005;</tspan> cookies</text>
+  <text x="292" y="330" fill="#42505e" font-size="11"><tspan fill="#1a7f37" font-weight="700">&#10003;</tspan> token meta</text>
+  <text x="392" y="330" fill="#59636e" font-size="11"><tspan fill="#8b949e" font-weight="700">&#10005;</tspan> element text</text>
+  <text x="292" y="350" fill="#42505e" font-size="11"><tspan fill="#1a7f37" font-weight="700">&#10003;</tspan> fingerprint</text>
+  <text x="392" y="350" fill="#59636e" font-size="11"><tspan fill="#8b949e" font-weight="700">&#10005;</tspan> full urls</text>
+</g>
+
+<!-- ================= STAGE 3 : COMPARE ================= -->
+<g>
+  <rect x="500" y="100" width="205" height="290" rx="12" fill="#ffffff" stroke="#d8dee4" stroke-width="1"/>
+  <circle cx="526" cy="132" r="14" fill="#ffffff" stroke="#b76e00" stroke-width="2"/>
+  <text x="526" y="137" text-anchor="middle" fill="#b76e00" font-size="13" font-weight="700">3</text>
+  <text x="548" y="137" fill="#1f2328" font-size="13.5" font-weight="700" letter-spacing="1">COMPARE</text>
+  <text x="522" y="168" fill="#42505e" font-size="11.5">baseline + candidate, selected</text>
+  <text x="522" y="187" fill="#42505e" font-size="11.5">in order. Appearance coordinates,</text>
+  <text x="522" y="206" fill="#42505e" font-size="11.5">property &#183; state &#183; environment,</text>
+  <text x="522" y="225" fill="#42505e" font-size="11.5">source confidence, token candidates.</text>
+  <text x="522" y="244" fill="#42505e" font-size="11.5">Guidance reports evidence &#8212;</text>
+  <text x="522" y="263" fill="#42505e" font-size="11.5">not causes.</text>
+  <rect x="522" y="282" width="56" height="56" rx="10" fill="#1c7ed6" stroke="#000000" stroke-opacity="0.12"/>
+  <rect x="626" y="282" width="56" height="56" rx="10" fill="#1098ad" stroke="#000000" stroke-opacity="0.12"/>
+  <line x1="580" y1="310" x2="624" y2="310" stroke="#8b949e" stroke-width="1.5"/>
+  <text x="602" y="303" text-anchor="middle" fill="#1f2328" font-size="12" font-weight="700">&#916;E</text>
+  <text x="550" y="352" text-anchor="middle" fill="#59636e" font-size="10">baseline</text>
+  <text x="654" y="352" text-anchor="middle" fill="#59636e" font-size="10">candidate</text>
+  <text x="522" y="370" fill="#59636e" font-size="10">numeric deltas only in a shared</text>
+  <text x="522" y="383" fill="#59636e" font-size="10">color space &#8212; never invented.</text>
+</g>
+
+<!-- ================= STAGE 4 : REPORT ================= -->
+<g>
+  <rect x="730" y="100" width="205" height="290" rx="12" fill="#ffffff" stroke="#d8dee4" stroke-width="1"/>
+  <circle cx="756" cy="132" r="14" fill="#ffffff" stroke="#0969da" stroke-width="2"/>
+  <text x="756" y="137" text-anchor="middle" fill="#0969da" font-size="13" font-weight="700">4</text>
+  <text x="778" y="137" fill="#1f2328" font-size="13.5" font-weight="700" letter-spacing="1">REPORT</text>
+  <text x="752" y="168" fill="#42505e" font-size="11.5">export / import .colortrace files &#8212;</text>
+  <text x="752" y="187" fill="#42505e" font-size="11.5">validated on the way in, deduped</text>
+  <text x="752" y="206" fill="#42505e" font-size="11.5">on traceId. The regression report</text>
+  <text x="752" y="225" fill="#42505e" font-size="11.5">derives from the two traces.</text>
+  <g>
+    <rect x="752" y="246" width="52" height="68" rx="6" fill="#ffffff" stroke="#d8dee4" stroke-width="1.2"/>
+    <path d="M 792 246 l 12 12 l -12 0 z" fill="#eef1f4" stroke="#d8dee4" stroke-width="1"/>
+    <text x="778" y="328" text-anchor="middle" fill="#59636e" font-size="9.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">.colortrace</text>
+  </g>
+  <g>
+    <rect x="824" y="246" width="52" height="68" rx="6" fill="#ffffff" stroke="#d8dee4" stroke-width="1.2"/>
+    <path d="M 864 246 l 12 12 l -12 0 z" fill="#eef1f4" stroke="#d8dee4" stroke-width="1"/>
+    <rect x="832" y="258" width="36" height="4" rx="2" fill="#d8dee4"/>
+    <rect x="832" y="268" width="36" height="4" rx="2" fill="#d8dee4"/>
+    <rect x="832" y="278" width="24" height="4" rx="2" fill="#d8dee4"/>
+    <text x="850" y="328" text-anchor="middle" fill="#59636e" font-size="9.5">report</text>
+  </g>
+  <text x="752" y="348" fill="#1f2328" font-size="10.5" font-weight="600">the report omits:</text>
+  <text x="752" y="363" fill="#59636e" font-size="10">screenshots &#183; page source &#183;</text>
+  <text x="752" y="376" fill="#59636e" font-size="10">selectors &#183; url hashes &#183; causal claims</text>
+</g>
+
+<!-- arrows -->
+<path d="M 247 245 L 262 245" stroke="#8b949e" stroke-width="2"/>
+<path d="M 262 245 l -8 -5 l 2 10 z" fill="#8b949e"/>
+<path d="M 477 245 L 492 245" stroke="#8b949e" stroke-width="2"/>
+<path d="M 492 245 l -8 -5 l 2 10 z" fill="#8b949e"/>
+<path d="M 707 245 L 722 245" stroke="#8b949e" stroke-width="2"/>
+<path d="M 722 245 l -8 -5 l 2 10 z" fill="#8b949e"/>
+
+<!-- ================= PRIVACY CONTRACT ================= -->
+<g>
+  <rect x="40" y="404" width="920" height="92" rx="12" fill="#ffffff" stroke="#d8dee4" stroke-width="1"/>
+  <text x="64" y="432" fill="#1f2328" font-size="11" font-weight="700" letter-spacing="1.5">PRIVACY CONTRACT</text>
+  <text x="64" y="455" fill="#42505e" font-size="11.5">declares only <tspan font-weight="600" fill="#1f2328">activeTab</tspan> + <tspan font-weight="600" fill="#1f2328">scripting</tspan> &#8212; no persistent host permissions &#183; no screenshots &#183; no cloud transport &#183; no cookie access</text>
+  <text x="64" y="477" fill="#42505e" font-size="11.5">page identity reduced to origin &#183; selector text used only transiently, never persisted &#183; resolved style labeled honestly &#8212; never as rendered pixels</text>
+</g>
+
+<text x="40" y="528" fill="#1f2328" font-size="11.5"><tspan font-weight="700">known limits by design: </tspan><tspan fill="#59636e">no rendered-pixel sampling &#183; no invented cross-space deltas &#183; no winning-cascade claims &#183; no causal claims</tspan></text>
+<text x="960" y="528" text-anchor="end" fill="#8b949e" font-size="11">.colortrace &#183; local only</text>
 </svg>
