@@ -17,6 +17,32 @@ const comparisonIds = new Set<string>();
 function text(tag: string, value: string, className?: string): HTMLElement {
   const node = document.createElement(tag); node.textContent = value; if (className) node.className = className; return node;
 }
+/** Render recorded coordinates as a real CSS color. Null channels fall back to a neutral chip. */
+function swatchCss(value: { space: string; channels: (number | null)[]; alpha: number }): string {
+  const [c1, c2, c3] = value.channels;
+  if (c1 === null || c1 === undefined || c2 === null || c2 === undefined || c3 === null || c3 === undefined) return '#8a8a8a';
+  const a = value.alpha < 1 ? ` / ${value.alpha}` : '';
+  if (value.space === 'srgb' || value.space === 'srgb-linear') {
+    const r = Math.round(c1 * 255), g = Math.round(c2 * 255), b = Math.round(c3 * 255);
+    return value.alpha < 1 ? `rgba(${r}, ${g}, ${b}, ${value.alpha})` : `rgb(${r}, ${g}, ${b})`;
+  }
+  if (value.space === 'display-p3' || value.space === 'display-p3-linear') return `color(display-p3 ${c1} ${c2} ${c3}${a})`;
+  if (value.space === 'hsl') return `hsl(${c1 * 360} ${c2 * 100}% ${c3 * 100}%${a})`;
+  if (value.space === 'oklab') return `oklab(${c1} ${c2} ${c3}${a})`;
+  if (value.space === 'oklch') return `oklch(${c1} ${c2} ${c3}${a})`;
+  if (value.space === 'lab') return `lab(${c1 * 100}% ${c2} ${c3}${a})`;
+  if (value.space === 'lch') return `lch(${c1 * 100}% ${c2} ${c3}${a})`;
+  return '#8a8a8a';
+}
+function channelReadout(value: { space: string; channels: (number | null)[]; alpha: number }): string {
+  const ch = value.channels.map((c) => (c === null || c === undefined ? 'null' : c.toFixed(4))).join('  ');
+  return `${value.space}  [${ch}]  α ${value.alpha}`;
+}
+function swatch(value: { space: string; channels: (number | null)[]; alpha: number }, label: string): HTMLElement {
+  const node = document.createElement('div'); node.className = 'swatch'; node.style.background = swatchCss(value);
+  node.setAttribute('role', 'img'); node.setAttribute('aria-label', `${label}: ${channelReadout(value)}`);
+  return node;
+}
 function interpretationLabel(trace: ColorTrace): string { return trace.appearance.interpretation === 'resolved-style' ? 'Resolved CSS style · not a rendered-pixel sample' : 'Rendered-pixel appearance'; }
 function evidenceSection(trace: ColorTrace): HTMLElement | null {
   const sourceNodes = trace.evidence.nodes.filter((node) => node.kind !== 'computed-value'); if (!sourceNodes.length) return null;
@@ -42,9 +68,15 @@ function reproductionConditions(entries: TraceDifference[]): HTMLElement {
 }
 function comparisonCard(baseline: ColorTrace, candidate: ColorTrace): HTMLElement {
   const comparison = compareColorTraces(baseline, candidate); const article = document.createElement('article'); article.className = 'comparison-card'; article.setAttribute('aria-live', 'polite');
-  article.append(text('h2', 'Baseline → candidate comparison'), text('p', `${baseline.intent.property} → ${candidate.intent.property}`));
+  article.append(text('h2', 'Baseline against candidate'));
+  const swatches = document.createElement('div'); swatches.className = 'compare-swatches';
+  const side = (label: string, trace: ColorTrace) => { const wrap = document.createElement('figure'); wrap.append(swatch(trace.appearance.value, `${label} recorded color`)); const cap = document.createElement('figcaption'); cap.append(text('strong', label), text('span', channelReadout(trace.appearance.value), 'channels')); wrap.append(cap); return wrap; };
+  swatches.append(side('Baseline', baseline), side('Candidate', candidate));
+  article.append(swatches);
   const appearance = comparison.appearance.maxChannelDelta === null ? 'Color coordinates changed or are not directly comparable across recorded spaces.' : `Maximum recorded channel delta: ${comparison.appearance.maxChannelDelta.toFixed(4)}; alpha delta: ${comparison.appearance.alphaDelta.toFixed(4)}.`;
-  article.append(text('p', appearance), reproductionConditions([...comparison.state, ...comparison.environment]));
+  const verdict = document.createElement('p'); verdict.className = comparison.appearance.changed ? 'verdict changed' : 'verdict unchanged';
+  verdict.textContent = comparison.appearance.changed ? `Changed · ${appearance}` : `No appearance change · ${appearance}`;
+  article.append(verdict, reproductionConditions([...comparison.state, ...comparison.environment]));
   const state = differences('State differences', comparison.state); if (state) article.append(state); const environment = differences('Environment differences', comparison.environment); if (environment) article.append(environment);
   const provenance = document.createElement('section'); provenance.append(text('h3', 'Evidence changes')); const evidenceList = document.createElement('ul');
   evidenceList.append(text('li', `Authored-expression evidence changed: ${comparison.provenance.authoredExpressionChanged ? 'yes' : 'no'}`), text('li', `Source evidence changed: ${comparison.provenance.sourceEvidenceChanged ? 'yes' : 'no'}`), text('li', `Evidence confidence changed: ${comparison.provenance.confidenceChanged ? 'yes' : 'no'}`), text('li', `Token candidates added: ${comparison.provenance.tokenCandidatesAdded.join(', ') || 'none'}`), text('li', `Token candidates removed: ${comparison.provenance.tokenCandidatesRemoved.join(', ') || 'none'}`)); provenance.append(evidenceList); article.append(provenance);
@@ -56,11 +88,36 @@ function comparisonRole(traceId: string): 'Baseline' | 'Candidate' | 'Compare' {
   const selectedIds = [...comparisonIds]; const index = selectedIds.indexOf(traceId); return index === 0 ? 'Baseline' : index === 1 ? 'Candidate' : 'Compare';
 }
 function card(trace: ColorTrace): HTMLElement {
-  const article = document.createElement('article'); article.className = 'trace-card'; article.append(text('h2', trace.appearance.value.space.toUpperCase()), text('p', interpretationLabel(trace), 'interpretation'), text('p', trace.intent.property, 'property'), text('p', trace.environment.pageOrigin, 'origin'), text('p', new Date(trace.capturedAt).toLocaleString(), 'date'));
-  const sourceEvidence = evidenceSection(trace); if (sourceEvidence) article.append(sourceEvidence); const tokenEvidence = tokenSection(trace); if (tokenEvidence) article.append(tokenEvidence);
+  const article = document.createElement('article'); article.className = 'trace-card';
+  article.append(swatch(trace.appearance.value, `Recorded ${trace.appearance.value.space} color`));
+  const body = document.createElement('div'); body.className = 'trace-body';
+  const head = document.createElement('div'); head.className = 'trace-head';
+  head.append(text('h2', trace.appearance.value.space.toUpperCase()));
+  head.append(text('p', channelReadout(trace.appearance.value), 'channels'));
+  body.append(head);
+  body.append(text('p', interpretationLabel(trace), 'interpretation'));
+  const meta = document.createElement('dl'); meta.className = 'trace-meta';
+  const addMeta = (term: string, def: string) => { const dt = document.createElement('dt'); dt.textContent = term; const dd = document.createElement('dd'); dd.textContent = def; meta.append(dt, dd); };
+  addMeta('Property', trace.intent.property);
+  addMeta('Origin', trace.environment.pageOrigin);
+  addMeta('Captured', new Date(trace.capturedAt).toLocaleString());
+  if (trace.intent.authoredExpression) addMeta('Authored', trace.intent.authoredExpression);
+  body.append(meta);
+  const sourceEvidence = evidenceSection(trace); if (sourceEvidence) body.append(sourceEvidence); const tokenEvidence = tokenSection(trace); if (tokenEvidence) body.append(tokenEvidence);
+  if (trace.annotations.length) {
+    const notes = document.createElement('div'); notes.className = 'annotations';
+    for (const a of trace.annotations) {
+      const note = document.createElement('p'); note.className = 'annotation';
+      const label = document.createElement('strong'); label.textContent = a.label;
+      note.append(label, document.createTextNode(` ${a.note}`));
+      notes.append(note);
+    }
+    body.append(notes);
+  }
   const actions = document.createElement('div'); actions.className = 'actions'; const compareLabel = document.createElement('label'); compareLabel.className = 'compare-toggle'; const compare = document.createElement('input'); compare.type = 'checkbox'; compare.checked = comparisonIds.has(trace.traceId); const role = comparisonRole(trace.traceId); compare.setAttribute('aria-label', role === 'Compare' ? `Add trace ${trace.traceId} to comparison` : `${role} trace ${trace.traceId}`);
   compare.addEventListener('change', async () => { if (compare.checked) { if (comparisonIds.size >= 2) { compare.checked = false; status.textContent = 'Choose at most two traces to compare.'; return; } comparisonIds.add(trace.traceId); } else comparisonIds.delete(trace.traceId); await render(); }); compareLabel.append(compare, document.createTextNode(` ${role}`));
-  const exportButton = document.createElement('button'); exportButton.type = 'button'; exportButton.textContent = 'Export .colortrace'; exportButton.addEventListener('click', () => downloadColorTrace(trace)); const deleteButton = document.createElement('button'); deleteButton.type = 'button'; deleteButton.textContent = 'Delete'; deleteButton.addEventListener('click', async () => { comparisonIds.delete(trace.traceId); await deleteTrace(trace.traceId); await render(); }); actions.append(compareLabel, exportButton, deleteButton); article.append(actions); return article;
+  const exportButton = document.createElement('button'); exportButton.type = 'button'; exportButton.textContent = 'Export .colortrace'; exportButton.addEventListener('click', () => downloadColorTrace(trace)); const deleteButton = document.createElement('button'); deleteButton.type = 'button'; deleteButton.textContent = 'Delete'; deleteButton.addEventListener('click', async () => { comparisonIds.delete(trace.traceId); await deleteTrace(trace.traceId); await render(); }); actions.append(compareLabel, exportButton, deleteButton); body.append(actions);
+  article.append(body); return article;
 }
 async function render(message?: string): Promise<void> {
   try {
